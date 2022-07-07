@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "target": "es6",
+    "module": "Node16"
+  },
+  "include": ["src/**/*.ts"]
+}

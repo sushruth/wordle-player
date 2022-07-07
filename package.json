@@ -1,0 +1,13 @@
+{
+  "name": "wordle-solver",
+  "packageManager": "yarn@3.2.1",
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "esbuild": "^0.14.48",
+    "esbuild-runner": "^2.2.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "picocolors": "^1.0.0"
+  }
+}
