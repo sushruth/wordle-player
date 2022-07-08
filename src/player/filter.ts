@@ -18,6 +18,16 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
   const newWordList = wordList.filter((word) => {
     const originalWord = word.slice();
 
+    // must have all green letters
+    for (const greenResult of mappedResults[ResultColor.Green]) {
+      if (word[greenResult.index] !== greenResult.letter) {
+        return false;
+      } else {
+        score.set(originalWord, (score.get(originalWord) || 0) + 1);
+        word = word.replace(greenResult.letter, "-");
+      }
+    }
+
     // must have all yellow letters excluding green ones, in different indices than result has
     for (const yellowResult of mappedResults[ResultColor.Yellow]) {
       if (!word.includes(yellowResult.letter)) {
@@ -30,19 +40,9 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
             return false;
           }
         }
-        score.set(originalWord, (score.get(originalWord) || 0) + 1);
+        score.set(originalWord, (score.get(originalWord) || 0) + 10);
         word = word.replace(yellowResult.letter, "-");
         return true;
-      }
-    }
-
-    // must have all green letters
-    for (const greenResult of mappedResults[ResultColor.Green]) {
-      if (word[greenResult.index] !== greenResult.letter) {
-        return false;
-      } else {
-        score.set(originalWord, (score.get(originalWord) || 0) + 1);
-        word = word.replace(greenResult.letter, "-");
       }
     }
 
@@ -59,5 +59,5 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
     return true;
   });
 
-  return newWordList.sort((a, b) => (score.get(b) || 0) - (score.get(a) || 0));
+  return newWordList.sort((a, b) => (score.get(a) || 0) - (score.get(b) || 0));
 }

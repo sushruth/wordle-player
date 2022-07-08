@@ -41,7 +41,11 @@ function playTheGame() {
       throw Error("This is not right");
     }
 
-    if (lastFilteredListLength === filteredWordList.length) {
+    if (
+      lastFilteredListLength > 1 &&
+      lastFilteredListLength === filteredWordList.length
+    ) {
+      console.log("Same length attempt");
       sameLengthAttempts++;
       wordToPick++;
     } else {
