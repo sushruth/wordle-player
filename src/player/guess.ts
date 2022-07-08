@@ -15,7 +15,6 @@ function playTheGame() {
   let sameLengthAttempts = 0;
   let wordToPick = 0;
 
-  let cumulativeResult: WordResult = [];
   while (
     !guessResult.length ||
     !guessResult.every((r) => r.color === ResultColor.Green)
@@ -26,7 +25,7 @@ function playTheGame() {
 
     if (!nextGuess) {
       console.log(filteredWordList, wordToPick, guessResult);
-      throw Error("No guess left!");
+      throw Error("No guesses left!");
     }
 
     guessResult = isThisTheWord(nextGuess);
