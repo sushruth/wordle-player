@@ -1,6 +1,6 @@
 # wordle-exercise
 
-This repo has code that when run, plays the **wordle** game by itself based on a 2300+ word list.
+This repo has code that when run (CLI), plays the **wordle** game by itself based on a 2300+ word list.
 
 ## How to run
 
@@ -24,7 +24,7 @@ yarn esr ./src/player/guess.ts
 
 ## Some stats about how (in)efficient this is
 
-```json
+```jsonc
 {
   "maxAttempts": 13, // game with max attempts
   "minAttempts": 2, // game with min attempts
