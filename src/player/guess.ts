@@ -1,115 +1,81 @@
-import pc from "picocolors";
-import { Letter, Result } from "../common/types";
-import { isTheWord, newGame } from "../game/evaluator";
-import {
-  filteredWords,
-  getNewRandomFilteredWord,
-  latestGuess,
-  setFilteredWords,
-} from "./state";
+import { prettyPrintResult } from "../common/prettyPrintResult";
+import { isThisTheWord, startNewGame } from "../game/evaluator";
+import { ResultColor, Word, WordResult } from "../game/types";
+import { words } from "../words";
+import { getFilteredWordList } from "./filter";
 
-function getResultMap(results: Result[]) {
-  const resultMap: Map<Result, { letter: Letter; index: number }[]> = new Map();
-  for (let i = 0; i < results.length; i++) {
-    const resultItem = results[i];
-    resultMap.set(
-      resultItem,
-      (resultMap.get(resultItem) || []).concat({
-        letter: latestGuess[i],
-        index: i,
-      })
-    );
-  }
-  return resultMap;
-}
+function playTheGame() {
+  debugger;
+  startNewGame();
 
-function filterWordList(results: Result[]) {
-  const resultMap = getResultMap(results);
-  const greenResults = resultMap.get(Result.Green);
-  const yellowResults = resultMap.get(Result.Yellow);
-  const yellowResultCount: number[] = [];
-  const blackResults = resultMap.get(Result.Black);
+  let attemptCount = 0;
+  let filteredWordList: Word[] = [...words];
+  let guessResult: WordResult = [];
+  let lastFilteredListLength = filteredWordList.length;
+  let sameLengthAttempts = 0;
+  let wordToPick = 0;
 
-  const newFilteredWords = filteredWords.filter((word, i) => {
-    yellowResultCount[i] = 0;
-    // must have same letters as guess in green locations
-    if (greenResults) {
-      for (const entry of greenResults) {
-        if (word[entry.index] !== entry.letter) {
-          return false;
-        }
-      }
+  let cumulativeResult: WordResult = [];
+  while (
+    !guessResult.length ||
+    !guessResult.every((r) => r.color === ResultColor.Green)
+  ) {
+    const nextGuess = attemptCount
+      ? filteredWordList[wordToPick]
+      : filteredWordList[Math.floor(Math.random() * filteredWordList.length)];
+
+    if (!nextGuess) {
+      console.log(filteredWordList, wordToPick, guessResult);
+      throw Error("No guess left!");
     }
 
-    if (yellowResults) {
-      for (const entry of yellowResults) {
-        if (word.includes(entry.letter)) {
-          yellowResultCount[i]++;
-          // must not have same letters as guess in yellow locations
-        } else if (word[entry.index] === entry.letter) {
-          return false;
-        }
-      }
+    guessResult = isThisTheWord(nextGuess);
+    attemptCount++;
+
+    prettyPrintResult(nextGuess, guessResult);
+
+    const oldFilteredList = filteredWordList.slice();
+    filteredWordList = getFilteredWordList([...filteredWordList], guessResult);
+
+    if (filteredWordList.length < 1 || sameLengthAttempts > 10) {
+      console.log(oldFilteredList, guessResult);
+      throw Error("This is not right");
     }
 
-    // must not have any letters in black locations
-    if (blackResults) {
-      for (const entry of blackResults) {
-        if (word.includes(entry.letter)) {
-          return false;
-        }
-      }
+    if (lastFilteredListLength === filteredWordList.length) {
+      sameLengthAttempts++;
+      wordToPick++;
+    } else {
+      sameLengthAttempts = 0;
+      wordToPick = 0;
     }
 
-    return true;
-  });
-
-  setFilteredWords(newFilteredWords);
-}
-
-const colorFnMap = {
-  [Result.Black]: (v: string) => pc.bgBlack(pc.white(` ${v} `)),
-  [Result.Green]: (v: string) => pc.bgGreen(pc.white(` ${v} `)),
-  [Result.Yellow]: (v: string) => pc.bgYellow(pc.white(` ${v} `)),
-};
-
-function guess() {
-  let result: Result[] = [Result.Yellow];
-
-  let attempts = 0;
-  while (filteredWords.length > 1) {
-    attempts++;
-    const newGuess = getNewRandomFilteredWord();
-
-    result = isTheWord(newGuess);
-
-    console.log(result.map((v, i) => colorFnMap[v](newGuess[i])).join(""));
-
-    filterWordList(result);
+    lastFilteredListLength = filteredWordList.length;
   }
 
-  console.log("Success! Found the word - ", latestGuess);
-
-  return attempts;
+  return attemptCount;
 }
 
-const attemptList: number[] = [];
-for (let i = 0; i < 10; i++) {
-  newGame();
-  attemptList.push(guess());
+const attemptCountList: number[] = [];
+for (let i = 0; i < 1000; i++) {
+  console.log(`\n===\n`);
+  attemptCountList.push(playTheGame());
 }
 
-const sortedAttemptsList = attemptList.sort((a, b) => b - a);
+console.log(`\n===\n`);
+
+const sortedAttemptsList = attemptCountList.sort((a, b) => b - a);
 const maxAttempts = sortedAttemptsList[0];
 const minAttempts = sortedAttemptsList[sortedAttemptsList.length - 1];
-const averageAttemptsList = attemptList.reduce(
-  (acc, v) => acc + v / attemptList.length,
+const averageAttemptsList = attemptCountList.reduce(
+  (acc, v) => acc + v / attemptCountList.length,
   0
 );
 
+console.log(`\nStats - \n`);
 console.log({
   maxAttempts,
   minAttempts,
   averageAttemptsList,
-  totalGamesPlayed: attemptList.length,
+  totalGamesPlayed: attemptCountList.length,
 });

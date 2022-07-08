@@ -2,7 +2,12 @@
   "compilerOptions": {
     "lib": ["ESNext"],
     "target": "es6",
-    "module": "Node16"
+    "module": "Node16",
+    "alwaysStrict": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "strictNullChecks": true
   },
   "include": ["src/**/*.ts"]
 }
