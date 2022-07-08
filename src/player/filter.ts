@@ -13,8 +13,6 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
 
   const score = new Map<Word, number>();
 
-  debugger;
-
   const newWordList = wordList.filter((word) => {
     const originalWord = word.slice();
 

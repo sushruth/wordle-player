@@ -5,7 +5,6 @@ import { words } from "../words";
 import { getFilteredWordList } from "./filter";
 
 function playTheGame() {
-  debugger;
   startNewGame();
 
   let attemptCount = 0;

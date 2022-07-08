@@ -12,7 +12,6 @@ export function startNewGame() {
 }
 
 export function isThisTheWord(input: Word): WordResult {
-  debugger;
   const result: WordResult = new Array(input.length);
 
   const handledIndices = new Set();
