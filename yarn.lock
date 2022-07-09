@@ -5,6 +5,13 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@types/babar@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@types/babar@npm:0.2.1"
+  checksum: fa0bbf876b6315dbb086c501dcd64ca2803f3b8b15f4ab149b730cea5513f14550539522f3208abf3af4a10ad51a6c4677101cb744cac05e5ee66d314bb4b816
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^18.0.3":
   version: 18.0.3
   resolution: "@types/node@npm:18.0.3"
@@ -12,10 +19,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babar@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "babar@npm:0.2.2"
+  dependencies:
+    colors: ~0.6.2
+  checksum: 3c739a70330d81411c4bfb789318354a70cfe4ea5dede91447109716f2b79c6e096c7587f48498c5746d6577d44eb9e158d38135f9fd80619e8227e2017f0c6a
+  languageName: node
+  linkType: hard
+
 "buffer-from@npm:^1.0.0":
   version: 1.1.2
   resolution: "buffer-from@npm:1.1.2"
   checksum: 0448524a562b37d4d7ed9efd91685a5b77a50672c556ea254ac9a6d30e3403a517d8981f10e565db24e8339413b43c97ca2951f10e399c6125a0d8911f5679bb
+  languageName: node
+  linkType: hard
+
+"colors@npm:~0.6.2":
+  version: 0.6.2
+  resolution: "colors@npm:0.6.2"
+  checksum: 3f48cadb26ef1809847f3c0ff1e1dc4b2e2af4ace54dd9cd7491bfcaafef3abaac7cb063cb91f98f305bba8a6fa74720a8856610629f9c889b1eb4cd84a120a3
   languageName: node
   linkType: hard
 
@@ -306,7 +329,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "wordle-solver@workspace:."
   dependencies:
+    "@types/babar": ^0.2.1
     "@types/node": ^18.0.3
+    babar: ^0.2.2
     commander: ^9.3.0
     esbuild: ^0.14.48
     esbuild-runner: ^2.2.1

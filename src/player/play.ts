@@ -1,3 +1,4 @@
+import babar from "babar";
 import { program } from "commander";
 import { log, silence } from "../common/logger";
 import { playTheGame } from "./game";
@@ -36,10 +37,20 @@ program
     if (options.printStats) {
       log(`\n===============\n`);
 
+      const counts = attemptCountList.reduce(
+        (acc, v) => {
+          acc[v] = (acc[v] || 0) + 1;
+          return acc;
+        },
+        [0, 0, 0] as number[]
+      );
+
+      console.log(babar(Array.from(counts.entries())));
+
       const sortedAttemptsList = attemptCountList.sort((a, b) => b - a);
       const maxAttempts = sortedAttemptsList[0];
       const minAttempts = sortedAttemptsList[sortedAttemptsList.length - 1];
-      const averageAttemptsList = attemptCountList.reduce(
+      const averageAttemptsPerGame = attemptCountList.reduce(
         (acc, v) => acc + v / attemptCountList.length,
         0
       );
@@ -47,7 +58,7 @@ program
       console.table({
         maxAttempts,
         minAttempts,
-        averageAttemptsList,
+        averageAttemptsPerGame,
         totalGamesPlayed: attemptCountList.length,
       });
     }

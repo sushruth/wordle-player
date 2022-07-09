@@ -33,7 +33,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@types/babar", "npm:0.2.1"],\
             ["@types/node", "npm:18.0.3"],\
+            ["babar", "npm:0.2.2"],\
             ["commander", "npm:9.3.0"],\
             ["esbuild", "npm:0.14.48"],\
             ["esbuild-runner", "virtual:1cb7ae8fae4dd2066a80db657cd88a200856b141d321fa926921362f02912e01accea8326e92d502b87c726bdc3ddb0fdfcf069763c5c0a228683c56f34819d4#npm:2.2.1"],\
@@ -41,6 +43,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@types/babar", [\
+        ["npm:0.2.1", {\
+          "packageLocation": "./.yarn/cache/@types-babar-npm-0.2.1-b0294c9268-fa0bbf876b.zip/node_modules/@types/babar/",\
+          "packageDependencies": [\
+            ["@types/babar", "npm:0.2.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/node", [\
@@ -52,11 +63,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["babar", [\
+        ["npm:0.2.2", {\
+          "packageLocation": "./.yarn/cache/babar-npm-0.2.2-a5bec88dde-3c739a7033.zip/node_modules/babar/",\
+          "packageDependencies": [\
+            ["babar", "npm:0.2.2"],\
+            ["colors", "npm:0.6.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["buffer-from", [\
         ["npm:1.1.2", {\
           "packageLocation": "./.yarn/cache/buffer-from-npm-1.1.2-03d2f20d7e-0448524a56.zip/node_modules/buffer-from/",\
           "packageDependencies": [\
             ["buffer-from", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["colors", [\
+        ["npm:0.6.2", {\
+          "packageLocation": "./.yarn/cache/colors-npm-0.6.2-cb32762d12-3f48cadb26.zip/node_modules/colors/",\
+          "packageDependencies": [\
+            ["colors", "npm:0.6.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -355,7 +385,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["wordle-solver", "workspace:."],\
+            ["@types/babar", "npm:0.2.1"],\
             ["@types/node", "npm:18.0.3"],\
+            ["babar", "npm:0.2.2"],\
             ["commander", "npm:9.3.0"],\
             ["esbuild", "npm:0.14.48"],\
             ["esbuild-runner", "virtual:1cb7ae8fae4dd2066a80db657cd88a200856b141d321fa926921362f02912e01accea8326e92d502b87c726bdc3ddb0fdfcf069763c5c0a228683c56f34819d4#npm:2.2.1"],\

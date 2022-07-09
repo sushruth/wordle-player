@@ -49,6 +49,10 @@ Options:
 }
 ```
 
+It also shows a graph of how many times the game was solved in a given number of attempts.
+
+![](./docs/stats.png)
+
 ## Issues
 
 ### FIXED: The Yellow issue
