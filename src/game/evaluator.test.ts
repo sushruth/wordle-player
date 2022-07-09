@@ -1,11 +1,11 @@
 import { prettyPrintResult } from "../common/prettyPrintResult";
 // import { words } from "../words";
-import { isThisTheWord, startNewGame } from "./evaluator";
+import { isThisTheWord, setUpANewGame } from "./evaluator";
 
-startNewGame();
+setUpANewGame();
 
 // const word = words[Math.floor(Math.random() * words.length)];
-const word = "awake";
+const word = "steep";
 
 const r = isThisTheWord(word);
 

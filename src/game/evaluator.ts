@@ -1,83 +1,60 @@
-import { getIndices } from "../common/getLetterIndices";
+import { log } from "../common/logger";
 import { prettyPrintResult } from "../common/prettyPrintResult";
 import { words } from "../words";
 import { ResultColor, Word, WordResult } from "./types";
 
 let goalWord: Word = "";
 
-export function startNewGame() {
+export function setUpANewGame() {
   goalWord = words[Math.floor(Math.random() * words.length)];
   prettyPrintResult(goalWord.toUpperCase(), []);
-  console.log("\n");
+  log("\n");
 }
 
 export function isThisTheWord(input: Word): WordResult {
   const result: WordResult = new Array(input.length);
 
-  const handledIndices = new Set();
+  let goalWordCopy = goalWord.slice();
 
   // green and black loop
-  for (let i = 0; i < input.length; i++) {
-    const letter = input[i];
-    if (goalWord[i] === letter) {
-      result[i] = {
-        index: i,
+  for (let index = 0; index < input.length; index++) {
+    const letter = input[index];
+    if (goalWord[index] === letter) {
+      result[index] = {
+        index,
         letter,
         color: ResultColor.Green,
       };
-      handledIndices.add(i);
+      goalWordCopy = goalWordCopy.replace(letter, "-");
     } else if (!goalWord.includes(letter)) {
-      result[i] = {
+      result[index] = {
         color: ResultColor.Black,
         letter,
-        index: i,
+        index,
       };
-      handledIndices.add(i);
+      goalWordCopy = goalWordCopy.replace(letter, "-");
     }
   }
 
   // yellow loop
-  for (let i = 0; i < input.length; i++) {
-    if (!handledIndices.has(i)) {
-      const letter = input[i];
+  for (let index = 0; index < input.length; index++) {
+    if (!result[index]) {
+      const letter = input[index];
 
-      const goalLetterIndices = getIndices(goalWord, letter);
-      const inputLetterIndices = getIndices(input, letter);
-
-      const adjustedGoalLetterIndices = goalLetterIndices.filter(
-        (index) => !inputLetterIndices.includes(index)
-      );
-      const adjustedInputLetterIndices = inputLetterIndices.filter(
-        (index) =>
-          !goalLetterIndices.includes(index) && !handledIndices.has(index)
-      );
-
-      if (adjustedGoalLetterIndices.length) {
-        for (const index of adjustedInputLetterIndices) {
-          if (!result[index] && !handledIndices.has(i)) {
-            // this has not been handled yet. its a yellow then.
-            result[i] = {
-              color: ResultColor.Yellow,
-              letter,
-              index: i,
-            };
-            handledIndices.add(i);
-          } else {
-            result[i] = {
-              color: ResultColor.Black,
-              letter,
-              index: i,
-            };
-            handledIndices.add(i);
-          }
-        }
-      } else {
-        result[i] = {
-          color: ResultColor.Black,
+      if (goalWordCopy.includes(letter)) {
+        result[index] = {
+          color: ResultColor.Yellow,
+          index,
           letter,
-          index: i,
         };
-        handledIndices.add(i);
+        goalWordCopy = goalWordCopy.replace(letter, "-");
+      } else {
+        result[index] = {
+          color: ResultColor.Black,
+          index,
+          letter,
+        };
+        goalWordCopy = goalWordCopy.replace(letter, "-");
       }
     }
   }

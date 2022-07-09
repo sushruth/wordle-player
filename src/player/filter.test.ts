@@ -1,34 +1,23 @@
+import { log } from "../common/logger";
 import { prettyPrintResult } from "../common/prettyPrintResult";
 import { getFilteredWordList } from "./filter";
 
 const result = [
-  { color: 0, letter: "s", index: 0 },
-  { index: 1, letter: "i", color: 1 },
-  { color: 0, letter: "e", index: 2 },
-  { color: 0, letter: "g", index: 3 },
-  { index: 4, letter: "e", color: 1 },
+  { index: 0, letter: "s", color: 1 },
+  { color: 2, letter: "p", index: 1 },
+  { index: 2, letter: "e", color: 1 },
+  { color: 0, letter: "n", index: 3 },
+  { color: 0, letter: "d", index: 4 },
 ];
 
-const words = [
-  "siege",
-  "hinge",
-  "pique",
-  "singe",
-  "niece",
-  "since",
-  "sieve",
-  "pixie",
-  "niche",
-  "rinse",
-  "piece",
-];
+const words = ["spend", "spell", "shell", "smell", "speck", "swell"];
 
 const filteredList = getFilteredWordList(words, result);
 
-prettyPrintResult("NICHE", []);
+prettyPrintResult("swell".toUpperCase(), []);
 
 for (const word of filteredList) {
   prettyPrintResult(word, result);
 }
 
-console.log(filteredList);
+log(filteredList);

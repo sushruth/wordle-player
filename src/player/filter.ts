@@ -7,21 +7,22 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
     [ResultColor.Yellow]: [],
   };
 
+  let lastWord = "";
+
   for (const result of lastResult) {
+    lastWord += result.letter;
     mappedResults[result.color].push(result);
   }
 
-  const score = new Map<Word, number>();
-
   const newWordList = wordList.filter((word) => {
-    const originalWord = word.slice();
+    // always remove last word
+    if (word === lastWord) return false;
 
     // must have all green letters
     for (const greenResult of mappedResults[ResultColor.Green]) {
       if (word[greenResult.index] !== greenResult.letter) {
         return false;
       } else {
-        score.set(originalWord, (score.get(originalWord) || 0) + 1);
         word = word.replace(greenResult.letter, "-");
       }
     }
@@ -31,16 +32,11 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
       if (!word.includes(yellowResult.letter)) {
         return false;
       } else {
-        for (let i = 0; i < word.length; i++) {
-          const letter = word[i];
-          if (i === yellowResult.index && letter === yellowResult.letter) {
-            // must not have yellow in the same place as before.
-            return false;
-          }
+        if (word[yellowResult.index] === yellowResult.letter) {
+          return false;
+        } else {
+          word = word.replace(yellowResult.letter, "-");
         }
-        score.set(originalWord, (score.get(originalWord) || 0) + 10);
-        word = word.replace(yellowResult.letter, "-");
-        return true;
       }
     }
 
@@ -49,7 +45,6 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
       if (word.includes(blackResult.letter)) {
         return false;
       } else {
-        score.set(originalWord, (score.get(originalWord) || 0) + 1);
         word = word.replace(blackResult.letter, "-");
       }
     }
@@ -57,5 +52,5 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
     return true;
   });
 
-  return newWordList.sort((a, b) => (score.get(a) || 0) - (score.get(b) || 0));
+  return newWordList;
 }

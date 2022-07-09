@@ -34,6 +34,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["@types/node", "npm:18.0.3"],\
+            ["commander", "npm:9.3.0"],\
             ["esbuild", "npm:0.14.48"],\
             ["esbuild-runner", "virtual:1cb7ae8fae4dd2066a80db657cd88a200856b141d321fa926921362f02912e01accea8326e92d502b87c726bdc3ddb0fdfcf069763c5c0a228683c56f34819d4#npm:2.2.1"],\
             ["picocolors", "npm:1.0.0"],\
@@ -56,6 +57,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/buffer-from-npm-1.1.2-03d2f20d7e-0448524a56.zip/node_modules/buffer-from/",\
           "packageDependencies": [\
             ["buffer-from", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["commander", [\
+        ["npm:9.3.0", {\
+          "packageLocation": "./.yarn/cache/commander-npm-9.3.0-1393a6e1f6-d421ce66fe.zip/node_modules/commander/",\
+          "packageDependencies": [\
+            ["commander", "npm:9.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -346,6 +356,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["wordle-solver", "workspace:."],\
             ["@types/node", "npm:18.0.3"],\
+            ["commander", "npm:9.3.0"],\
             ["esbuild", "npm:0.14.48"],\
             ["esbuild-runner", "virtual:1cb7ae8fae4dd2066a80db657cd88a200856b141d321fa926921362f02912e01accea8326e92d502b87c726bdc3ddb0fdfcf069763c5c0a228683c56f34819d4#npm:2.2.1"],\
             ["picocolors", "npm:1.0.0"],\

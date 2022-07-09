@@ -1,5 +1,6 @@
 import pc from "picocolors";
 import { ResultColor, Word, WordResult } from "../game/types";
+import { log } from "./logger";
 
 export function prettyPrintResult(word: Word, result?: WordResult) {
   let text = "";
@@ -24,5 +25,5 @@ export function prettyPrintResult(word: Word, result?: WordResult) {
     }
   }
 
-  console.log(text);
+  log(text);
 }

@@ -19,6 +19,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "commander@npm:9.3.0"
+  checksum: d421ce66fee25792a1470c69aa8d1b86434bf873a96483aa92c8267f81a6f20c6f7c426f5e82f88ac50a8ec4855d3f2787aebcdef8aa559e1080a2337a95a217
+  languageName: node
+  linkType: hard
+
 "esbuild-android-64@npm:0.14.48":
   version: 0.14.48
   resolution: "esbuild-android-64@npm:0.14.48"
@@ -300,6 +307,7 @@ __metadata:
   resolution: "wordle-solver@workspace:."
   dependencies:
     "@types/node": ^18.0.3
+    commander: ^9.3.0
     esbuild: ^0.14.48
     esbuild-runner: ^2.2.1
     picocolors: ^1.0.0

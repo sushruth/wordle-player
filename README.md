@@ -15,7 +15,23 @@ Then run the following commands:
 git clone git@github.com:sushruth/wordle-player.git
 cd wordle-player
 yarn
-yarn esr ./src/player/guess.ts
+yarn start
+```
+
+## Options
+
+Here is what `yarn start -h` says:
+
+```
+Usage: wordle-player [options]
+
+Options:
+  -V, --version         output the version number
+  -c, --count <number>  Number of games to play (default: "1")
+  -p, --print-stats     Print stats about all the plays (default: false)
+  -s, --silent          silent (default: false)
+  -do, --debug-options  debug the CLI options (default: false)
+  -h, --help            display help for command
 ```
 
 ## How does it look?
@@ -35,7 +51,7 @@ yarn esr ./src/player/guess.ts
 
 ## Issues
 
-### The Yellow issue
+### FIXED: The Yellow issue
 
 Does not fully eliminate yellow tile reuse
 
