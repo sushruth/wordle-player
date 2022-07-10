@@ -1,4 +1,4 @@
-import { Letter, ResultColor, Word, WordResult } from "../../game/types";
+import { Letter, Word, WordResult } from "../../game/types";
 
 export function getLetterPositionScoreBasedNextWord(
   filteredWordList: Word[],
@@ -6,6 +6,15 @@ export function getLetterPositionScoreBasedNextWord(
 ) {
   const [newList, score, letterPositionScore] =
     getLetterPositionBasedRankedList(filteredWordList, guessResult);
+
+  if (
+    newList.length < 6 &&
+    letterPositionScore.every((score) =>
+      Object.values(score).every((value) => value === 1)
+    )
+  ) {
+    // This means every item in the list is equally probable now. TODO
+  }
 
   return newList[0];
 }
@@ -19,10 +28,6 @@ function getLetterPositionBasedRankedList(
 
   for (const word of referenceList) {
     for (let i = 0; i < word.length; i++) {
-      if (guessResult.length && guessResult[i].color === ResultColor.Green) {
-        continue;
-      }
-
       letterPositionScore[i][word[i]] =
         (letterPositionScore[i][word[i]] || 0) + 1;
     }
