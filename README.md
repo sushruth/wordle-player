@@ -62,11 +62,15 @@ Does not fully eliminate yellow tile reuse
 
 ![](./docs/problem_yellow.png)
 
-### Not statistically sound yet -
+### Partially FIXED - Not statistically sound yet -
 
 It can take a while to solve sometimes
 
-![](docs/problem_long.png)
+![](./docs/problem_long.png)
+
+the solution is way better for this word now -
+
+![](./docs/taffy.png)
 
 ## Updates
 
