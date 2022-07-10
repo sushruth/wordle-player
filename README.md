@@ -90,7 +90,7 @@ jaunt,watch,homer,night,mound,stamp,joker,shape,haste,hilly,ratty,hound,match
 
 Here is what they look like in execution -
 
-![](./docs/fail_1.png)
-![](./docs/fail_2.png)
+![](./docs/fail1.png)
+![](./docs/fail2.png)
 
 My theory is that - as long as we have words sharing 4 letters in exact same positions, any ranked picking strategy will always have non-zero chance of losing since if the word to be guessed happens to be lowest ranked in any group of such words, it will be picked last and we could lose.
