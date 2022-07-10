@@ -23,13 +23,14 @@ yarn start
 Here is what `yarn start -h` says:
 
 ```
-Usage: wordle-player [options]
+Usage: yarn start [options]
 
 Options:
   -V, --version         output the version number
   -c, --count <number>  Number of games to play (default: "1")
   -p, --print-stats     Print stats about all the plays (default: false)
-  -s, --silent          silent (default: false)
+  -s, --silent          does not print each game in the console when set to true (default: false)
+  -sq, --sequential     runs through all words in the db sequentially once each (default: false)
   -do, --debug-options  debug the CLI options (default: false)
   -h, --help            display help for command
 ```
@@ -51,7 +52,7 @@ Options:
 
 It also shows a graph of how many times the game was solved in a given number of attempts.
 
-![](./docs/stats.png)
+![](./docs/new_stats.png)
 
 ## Issues
 
@@ -66,3 +67,26 @@ Does not fully eliminate yellow tile reuse
 It can take a while to solve sometimes
 
 ![](docs/problem_long.png)
+
+## Updates
+
+### 07/10/2022
+
+Updated the next word guesser based on letter-position-frequency - Meaning that in each round, we filter the words based on current execution result and the filtered list of words is then ranked by a score.
+
+To calculate this score, we first iterate through each word in the filtered list and count the number of times any letter appeared in a given position. That count becomes the positional score of that letter. After going through all the words in the list, we calculate the score for each word by taking the sum of all the positional scores for the letters in that word (except for the green letters).
+
+Once we have a score for each word, we sort the word list by that score in descending order, and pick the first word in the list (which would denote the word with the highest score).
+
+This brings the un-winnable (cannot solve within 6 tries) words from the list down to 15. These are the words for now -
+
+```
+jaunt,watch,homer,night,mound,stamp,joker,shape,haste,hilly,ratty,hound,match
+```
+
+Here is what they look like in execution -
+
+![](./docs/fail_1.png)
+![](./docs/fail_2.png)
+
+My theory is that - as long as we have words sharing 4 letters in exact same positions, any ranked picking strategy will always have non-zero chance of losing since if the word to be guessed happens to be lowest ranked in any group of such words, it will be picked last and we could lose.

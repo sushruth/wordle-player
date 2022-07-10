@@ -25,7 +25,7 @@ function playMultipleGames(count = 1, sequential = false) {
 }
 
 program
-  .name("wordle-player")
+  .name("yarn start")
   .version(packageJson.version)
   .option("-c, --count <number>", "Number of games to play", "1")
   .option("-p, --print-stats", "Print stats about all the plays", false)
