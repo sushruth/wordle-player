@@ -1,12 +1,13 @@
+import { getNextItem } from "../common/getNextItem";
+import { getRandomItem } from "../common/getRandomItem";
 import { log } from "../common/logger";
 import { prettyPrintResult } from "../common/prettyPrintResult";
 import { words } from "../words";
 import { ResultColor, Word, WordResult } from "./types";
 
 let goalWord: Word = "";
-
-export function setUpANewGame() {
-  goalWord = words[Math.floor(Math.random() * words.length)];
+export function setUpANewGame(sequential = false) {
+  goalWord = sequential ? getNextItem(words) : getRandomItem(words);
   prettyPrintResult(goalWord.toUpperCase(), []);
   log("\n");
 }

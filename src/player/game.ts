@@ -3,28 +3,45 @@ import { isThisTheWord, setUpANewGame } from "../game/evaluator";
 import { ResultColor, Word, WordResult } from "../game/types";
 import { words } from "../words";
 import { getFilteredWordList } from "./filter";
+import { getLetterPositionScoreBasedNextWord } from "./letterPositionBased/guesser";
 
-export function playTheGame() {
-  setUpANewGame();
+export function playTheGame(sequential = false) {
+  setUpANewGame(sequential);
 
   let attemptCount = 0;
   let filteredWordList: Word[] = [...words];
   let guessResult: WordResult = [];
+  let guessedWord = "";
 
-  while (
-    !guessResult.length ||
-    !guessResult.every((r) => r.color === ResultColor.Green)
-  ) {
-    attemptCount++;
+  try {
+    while (
+      !guessResult.length ||
+      !guessResult.every((r) => r.color === ResultColor.Green)
+    ) {
+      attemptCount++;
 
-    const nextGuess =
-      filteredWordList[Math.floor(Math.random() * filteredWordList.length)];
-    guessResult = isThisTheWord(nextGuess);
+      guessedWord = getLetterPositionScoreBasedNextWord(
+        filteredWordList,
+        guessResult
+      );
+      guessResult = isThisTheWord(guessedWord);
 
-    prettyPrintResult(nextGuess, guessResult);
+      prettyPrintResult(guessedWord, guessResult);
 
-    filteredWordList = getFilteredWordList([...filteredWordList], guessResult);
+      filteredWordList = getFilteredWordList(
+        [...filteredWordList],
+        guessResult
+      );
+    }
+  } catch (error) {
+    console.log({
+      guessedWord,
+      guessResult,
+      attemptCount,
+      filteredWordList,
+    });
+    throw error;
   }
 
-  return attemptCount;
+  return [attemptCount, guessedWord] as const;
 }

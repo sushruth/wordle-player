@@ -3,6 +3,7 @@
     "lib": ["ESNext"],
     "target": "es6",
     "module": "Node16",
+    "resolveJsonModule": true,
     "alwaysStrict": true,
     "strict": true,
     "esModuleInterop": true,

@@ -1,5 +1,9 @@
 import { LetterResult, ResultColor, Word, WordResult } from "../game/types";
 
+function replaceAt(word: Word, index: number) {
+  return word.substring(0, index) + "-" + word.substring(index + 1);
+}
+
 export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
   const mappedResults: Record<ResultColor, LetterResult[]> = {
     [ResultColor.Black]: [],
@@ -14,7 +18,8 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
     mappedResults[result.color].push(result);
   }
 
-  const newWordList = wordList.filter((word) => {
+  const newWordList = wordList.filter((originalWord) => {
+    let word = originalWord.slice();
     // always remove last word
     if (word === lastWord) return false;
 
@@ -23,7 +28,7 @@ export function getFilteredWordList(wordList: Word[], lastResult: WordResult) {
       if (word[greenResult.index] !== greenResult.letter) {
         return false;
       } else {
-        word = word.replace(greenResult.letter, "-");
+        word = replaceAt(word, greenResult.index);
       }
     }
 
