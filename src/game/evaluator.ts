@@ -8,7 +8,7 @@ import { ResultColor, Word, WordResult } from "./types";
 let goalWord: Word = "";
 export function setUpANewGame(sequential = false) {
   goalWord = sequential ? getNextItem(words) : getRandomItem(words);
-  prettyPrintResult(goalWord.toUpperCase(), []);
+  prettyPrintResult(goalWord.toUpperCase(), [], "»");
   log("\n");
 }
 

@@ -26,7 +26,7 @@ export function playTheGame(sequential = false) {
       );
       guessResult = isThisTheWord(guessedWord);
 
-      prettyPrintResult(guessedWord, guessResult);
+      prettyPrintResult(guessedWord, guessResult, attemptCount);
 
       filteredWordList = getFilteredWordList(
         [...filteredWordList],

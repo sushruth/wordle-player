@@ -2,8 +2,16 @@ import pc from "picocolors";
 import { ResultColor, Word, WordResult } from "../game/types";
 import { log } from "./logger";
 
-export function prettyPrintResult(word: Word, result?: WordResult) {
+export function prettyPrintResult(
+  word: Word,
+  result?: WordResult,
+  attempt?: number | string
+) {
   let text = "";
+
+  if (attempt) {
+    text += pc.gray(` ${attempt} `);
+  }
 
   for (let i = 0; i < word.length; i++) {
     const letter = word[i];

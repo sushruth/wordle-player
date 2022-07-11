@@ -13,7 +13,7 @@ function playMultipleGames(count = 1, sequential = false) {
   const attemptCountList: number[] = [];
 
   for (let i = 0; i < count; i++) {
-    log(`\n===============\n`);
+    log(`\n=====================\n`);
     const [attemptCount, guessedWord] = playTheGame(sequential);
     if (attemptCount > 6) {
       lostGames.add(guessedWord);
