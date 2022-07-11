@@ -1,22 +1,20 @@
-import { Letter, Word, WordResult } from "../../game/types";
+import { Word, WordResult } from "../../game/types";
+import { getLPScore, getLPWordScores } from "./score";
 
 export function getLetterPositionScoreBasedNextWord(
   filteredWordList: Word[],
   guessResult: WordResult
 ) {
-  const [newList, score, letterPositionScore] =
-    getLetterPositionBasedRankedList(filteredWordList, guessResult);
+  const [higScoreWords] = getLetterPositionBasedRankedList(
+    filteredWordList,
+    guessResult
+  );
 
-  if (
-    newList.length < 6 &&
-    letterPositionScore.every((score) =>
-      Object.values(score).every((value) => value === 1)
-    )
-  ) {
+  if (higScoreWords.length > 1 && higScoreWords.length < 10) {
     // This means every item in the list is equally probable now. TODO
   }
 
-  return newList[0];
+  return higScoreWords[0];
 }
 
 function getLetterPositionBasedRankedList(
@@ -24,27 +22,15 @@ function getLetterPositionBasedRankedList(
   guessResult: WordResult,
   referenceList = filteredWordList
 ) {
-  const letterPositionScore: Record<Letter, number>[] = [{}, {}, {}, {}, {}];
-
-  for (const word of referenceList) {
-    for (let i = 0; i < word.length; i++) {
-      letterPositionScore[i][word[i]] =
-        (letterPositionScore[i][word[i]] || 0) + 1;
-    }
-  }
-
-  const scores: Map<Word, number> = new Map();
-  for (const word of filteredWordList) {
-    let count = 0;
-    for (let i = 0; i < word.length; i++) {
-      count += letterPositionScore[i][word[i]] || 0;
-    }
-    scores.set(word, count);
-  }
-
-  const sortedList = filteredWordList.sort(
-    (a, b) => (scores.get(b) || 0) - (scores.get(a) || 0)
+  const letterPositionScore = getLPScore(referenceList);
+  const [wordScores, highestScore] = getLPWordScores(
+    filteredWordList,
+    letterPositionScore
   );
 
-  return [sortedList, scores, letterPositionScore] as const;
+  const highScoreList = filteredWordList
+    .filter((word) => wordScores.get(word) === highestScore)
+    .sort((a, b) => (wordScores.get(b) || 0) - (wordScores.get(a) || 0));
+
+  return [highScoreList, wordScores, letterPositionScore] as const;
 }
