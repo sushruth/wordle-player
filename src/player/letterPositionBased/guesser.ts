@@ -1,20 +1,34 @@
-import { Word, WordResult } from "../../game/types";
-import { getLPScore, getLPWordScores } from "./score";
+import { ResultColor, Word, WordResult } from "../../game/types";
+import { words } from "../../words";
+import {
+  getBestEliminatingWord,
+  getLPScore,
+  getLPSScoreArray,
+  getLPWordScores,
+  getScoreArrayLetters,
+} from "./score";
 
 export function getLetterPositionScoreBasedNextWord(
   filteredWordList: Word[],
   guessResult: WordResult
 ) {
-  const [higScoreWords] = getLetterPositionBasedRankedList(
+  const [highScoreWords, wordScores, lps] = getLetterPositionBasedRankedList(
     filteredWordList,
     guessResult
   );
 
-  if (higScoreWords.length > 1 && higScoreWords.length < 10) {
-    // This means every item in the list is equally probable now. TODO
+  if (highScoreWords.length > 1 && highScoreWords.length < 50) {
+    const scoreArray = getLPSScoreArray(lps);
+
+    if (scoreArray.length === 1) {
+      // This means every item in the list is equally probable now.
+      const includeLetters = [...getScoreArrayLetters(scoreArray)];
+      const word = getBestEliminatingWord(words, includeLetters);
+      return word;
+    }
   }
 
-  return higScoreWords[0];
+  return highScoreWords[0];
 }
 
 function getLetterPositionBasedRankedList(
@@ -22,7 +36,14 @@ function getLetterPositionBasedRankedList(
   guessResult: WordResult,
   referenceList = filteredWordList
 ) {
-  const letterPositionScore = getLPScore(referenceList);
+  const letterPositionScore = getLPScore(
+    referenceList,
+    new Set(
+      guessResult
+        .filter((r) => r.color === ResultColor.Green)
+        .map((r) => r.index)
+    )
+  );
   const [wordScores, highestScore] = getLPWordScores(
     filteredWordList,
     letterPositionScore
