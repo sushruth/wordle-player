@@ -14,3 +14,6 @@ export type LetterResult = {
 };
 
 export type WordResult = LetterResult[];
+
+export type Score = number;
+export type Position = number;

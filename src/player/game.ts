@@ -1,17 +1,19 @@
 import { prettyPrintResult } from "../common/prettyPrintResult";
 import { isThisTheWord, setUpANewGame } from "../game/evaluator";
-import { ResultColor, Word, WordResult } from "../game/types";
+import { LetterResult, ResultColor, Word, WordResult } from "../game/types";
 import { words } from "../words";
 import { getFilteredWordList } from "./filter";
-import { getLetterPositionScoreBasedNextWord } from "./letterPositionBased/guesser";
+import { getLPSVariantNextWord } from "./letterPositionBased/variant/guesser";
 
-export function playTheGame(sequential = false) {
+export async function playTheGame(sequential = false) {
   setUpANewGame(sequential);
 
   let attemptCount = 0;
   let filteredWordList: Word[] = [...words];
   let guessResult: WordResult = [];
   let guessedWord = "";
+  let guessedWordHistory: Word[] = [];
+  let greenResults: LetterResult[] = [];
 
   try {
     while (
@@ -20,11 +22,18 @@ export function playTheGame(sequential = false) {
     ) {
       attemptCount++;
 
-      guessedWord = getLetterPositionScoreBasedNextWord(
+      guessedWord = await getLPSVariantNextWord(
         filteredWordList,
-        guessResult
+        guessedWordHistory,
+        greenResults
       );
+
+      guessedWordHistory.push(guessedWord);
       guessResult = isThisTheWord(guessedWord);
+
+      greenResults.push(
+        ...guessResult.filter((r) => r.color === ResultColor.Green)
+      );
 
       prettyPrintResult(guessedWord, guessResult, attemptCount);
 

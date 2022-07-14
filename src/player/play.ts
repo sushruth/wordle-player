@@ -9,12 +9,12 @@ const packageJson = require("../../package.json");
 
 const lostGames: Set<Word> = new Set();
 
-function playMultipleGames(count = 1, sequential = false) {
+async function playMultipleGames(count = 1, sequential = false) {
   const attemptCountList: number[] = [];
 
   for (let i = 0; i < count; i++) {
     log(`\n=====================\n`);
-    const [attemptCount, guessedWord] = playTheGame(sequential);
+    const [attemptCount, guessedWord] = await playTheGame(sequential);
     if (attemptCount > 6) {
       lostGames.add(guessedWord);
     }
@@ -24,75 +24,92 @@ function playMultipleGames(count = 1, sequential = false) {
   return attemptCountList;
 }
 
-program
-  .name("yarn start")
-  .version(packageJson.version)
-  .option("-c, --count <number>", "Number of games to play", "1")
-  .option("-p, --print-stats", "Print stats about all the plays", false)
-  .option(
-    "-s, --silent",
-    "does not print each game in the console when set to true",
-    false
-  )
-  .option(
-    "-sq, --sequential",
-    "runs through all words in the db sequentially once each",
-    false
-  )
-  .option("-do, --debug-options", "debug the CLI options", false)
-  .action((options) => {
-    if (options.debugOptions) {
-      console.log(options);
-    }
+type Options = {
+  debugOptions: boolean;
+  sequential: boolean;
+  silent: boolean;
+  count: string;
+  printStats: boolean;
+};
 
-    if (options.silent) {
-      silence();
-    }
+async function run(options: Options) {
+  if (options.debugOptions) {
+    console.log(options);
+  }
 
-    const attemptCountList = playMultipleGames(
-      options.sequential ? words.length : Number(options.count),
-      options.sequential
+  if (options.silent) {
+    silence();
+  }
+
+  const attemptCountList = await playMultipleGames(
+    options.sequential ? words.length : Number(options.count),
+    options.sequential
+  );
+
+  if (options.printStats) {
+    log(`\n===============\n`);
+
+    let lostCount = 0;
+    const counts = attemptCountList.reduce(
+      (acc, attempts) => {
+        if (attempts > 6) {
+          lostCount++;
+        }
+        acc[attempts] = (acc[attempts] || 0) + 1;
+        return acc;
+      },
+      [0, 0, 0] as number[]
     );
 
-    if (options.printStats) {
-      log(`\n===============\n`);
+    console.log(babar(Array.from(counts.entries())));
 
-      let lostCount = 0;
-      const counts = attemptCountList.reduce(
-        (acc, attempts) => {
-          if (attempts > 6) {
-            lostCount++;
-          }
-          acc[attempts] = (acc[attempts] || 0) + 1;
-          return acc;
-        },
-        [0, 0, 0] as number[]
-      );
+    const sortedAttemptsList = attemptCountList.sort((a, b) => b - a);
+    const maxAttempts = sortedAttemptsList[0];
+    const minAttempts = sortedAttemptsList[sortedAttemptsList.length - 1];
+    const averageAttemptsPerGame = attemptCountList.reduce(
+      (acc, v) => acc + v / attemptCountList.length,
+      0
+    );
 
-      console.log(babar(Array.from(counts.entries())));
+    console.table({
+      maxAttempts,
+      minAttempts,
+      averageAttemptsPerGame,
+      totalGamesPlayed: attemptCountList.length,
+      lostCount,
+    });
 
-      const sortedAttemptsList = attemptCountList.sort((a, b) => b - a);
-      const maxAttempts = sortedAttemptsList[0];
-      const minAttempts = sortedAttemptsList[sortedAttemptsList.length - 1];
-      const averageAttemptsPerGame = attemptCountList.reduce(
-        (acc, v) => acc + v / attemptCountList.length,
-        0
-      );
-
-      console.table({
-        maxAttempts,
-        minAttempts,
-        averageAttemptsPerGame,
-        totalGamesPlayed: attemptCountList.length,
-        lostCount,
-      });
-
-      if (lostGames.size) {
-        console.log(
-          "Game was lost for these words - \n",
-          [...lostGames].join()
-        );
-      }
+    if (lostGames.size) {
+      console.log("Game was lost for these words - \n", [...lostGames].join());
     }
-  })
-  .parse();
+  }
+}
+
+async function main() {
+  program
+    .name("yarn start")
+    .version(packageJson.version)
+    .option("-c, --count <number>", "Number of games to play", "1")
+    .option("-p, --print-stats", "Print stats about all the plays", false)
+    .option(
+      "-s, --silent",
+      "does not print each game in the console when set to true",
+      false
+    )
+    .option(
+      "-sq, --sequential",
+      "runs through all words in the db sequentially once each",
+      false
+    )
+    .option("-do, --debug-options", "debug the CLI options", false)
+    .action(run);
+
+  await program.parseAsync();
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
