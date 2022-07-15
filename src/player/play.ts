@@ -71,7 +71,7 @@ async function run(options: Options) {
 
   const attemptCountList = await playMultipleGames(
     options.sequential,
-    Number(options.count),
+    options.count ? Number(options.count) : undefined,
     playTheGame,
     options.word
   );
@@ -123,7 +123,7 @@ async function main() {
   program
     .name("yarn start")
     .version(packageJson.version)
-    .option("-c, --count <number>", "Number of games to play", "1")
+    .option("-c, --count <number>", "Number of games to play")
     .option("-w, --word <word>", "Play with a specific goal word")
     .option("-p, --print-stats", "Print stats about all the plays", false)
     .option(

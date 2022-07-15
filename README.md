@@ -43,20 +43,35 @@ Commands:
 
 ![demo](./docs/demo.png)
 
-## Some stats about how (in)efficient this is
+## What does it do?
 
-```jsonc
-{
-  "maxAttempts": 13, // game with max attempts
-  "minAttempts": 2, // game with min attempts
-  "averageAttemptsList": 5.899999999999877, // average attempts per game
-  "totalGamesPlayed": 1000 // total games played
-}
-```
+It can
 
-It also shows a graph of how many times the game was solved in a given number of attempts.
+1. Play wordle for a word you pick and show you the result
+2. Help you play NYT wordle online
+3. Play wordle for all the words in the db and show you stats on how it played.
 
-![](./docs/new_stats.png)
+## Use this tool to play wordle online -
+
+### `yarn start wordle`
+
+![](./docs/wordle-online.jpg)
+
+### `yarn start -w "might"`
+
+![](./docs/custom-word.png)
+
+### `yarn start -s -p -c 200`
+
+This means "play 200 games with silent mode and print stats"
+
+![](./docs/play-with-count.png)
+
+#### `yarn start -s -p -sq`
+
+THis means "play all the words in the db sequentially once each and print stats"
+
+![](./docs/win-stats.png)
 
 ## Updates
 
@@ -161,3 +176,18 @@ It can take a while to solve sometimes
 the solution is way better for this word now -
 
 ![](./docs/taffy.png)
+
+### Some stats about how (in)efficient this is
+
+```jsonc
+{
+  "maxAttempts": 13, // game with max attempts
+  "minAttempts": 2, // game with min attempts
+  "averageAttemptsList": 5.899999999999877, // average attempts per game
+  "totalGamesPlayed": 1000 // total games played
+}
+```
+
+It also shows a graph of how many times the game was solved in a given number of attempts.
+
+![](./docs/new_stats.png)
