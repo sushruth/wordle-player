@@ -2,7 +2,7 @@ import { getNextItem } from "../common/getNextItem";
 import { getRandomItem } from "../common/getRandomItem";
 import { log } from "../common/logger";
 import { prettyPrintResult } from "../common/prettyPrintResult";
-import { words } from "../words";
+import { moreWords, words } from "../words";
 import { ResultColor, Word, WordResult } from "./types";
 
 let goalWord: Word = "";
@@ -13,6 +13,14 @@ export function setUpANewGame(sequential = false) {
 }
 
 export function isThisTheWord(input: Word): WordResult {
+  if (!words.includes(input) && !moreWords.includes(input)) {
+    if (input) {
+      throw Error(`"${input}" is not a valid word*`);
+    } else {
+      throw Error(`Empty input received`);
+    }
+  }
+
   const result: WordResult = new Array(input.length);
 
   let goalWordCopy = goalWord.slice();

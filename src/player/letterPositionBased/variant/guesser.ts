@@ -17,8 +17,10 @@ export async function getLPSVariantNextWord(
   if (filteredWordList.length > 1) {
     const highestScoreWords = getHighestScoreWords(scoreMap, highestScore);
 
-    if (!guessedWordHistory.includes(highestScoreWords[0])) {
-      return highestScoreWords[0];
+    const word = highestScoreWords[0];
+
+    if (word && !guessedWordHistory.includes(word)) {
+      return word;
     }
   }
 
@@ -42,8 +44,8 @@ async function getLpsWordMap(
   );
 
   let highestScore = 0;
-  nextWord: for (let word of wordList) {
-    let originalWord = word.slice();
+  for (const originalWord of wordList) {
+    let word = originalWord.slice();
     let score = 0;
     let seenLetters = new Set<Letter>();
     for (let i = 0; i < word.length; i++) {
@@ -72,7 +74,9 @@ async function getLpsWordMap(
       highestScore = score;
     }
 
-    scoreMap.set(originalWord, score);
+    if (score) {
+      scoreMap.set(originalWord, score);
+    }
   }
 
   return { scoreMap, highestScore };
