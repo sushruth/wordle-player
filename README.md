@@ -23,16 +23,20 @@ yarn start
 Here is what `yarn start -h` says:
 
 ```
-Usage: yarn start [options]
+Usage: yarn start [options] [command]
 
 Options:
   -V, --version         output the version number
   -c, --count <number>  Number of games to play (default: "1")
+  -w, --word <word>     Play with a specific goal word
   -p, --print-stats     Print stats about all the plays (default: false)
   -s, --silent          does not print each game in the console when set to true (default: false)
   -sq, --sequential     runs through all words in the db sequentially once each (default: false)
   -do, --debug-options  debug the CLI options (default: false)
   -h, --help            display help for command
+
+Commands:
+  wordle                Play for wordle online
 ```
 
 ## How does it look?

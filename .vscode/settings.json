@@ -5,5 +5,6 @@
   },
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "julia.environmentPath": "/home/sushruth/source/projects/wordle-solver/word-stats"
+  "julia.environmentPath": "/home/sushruth/source/projects/wordle-solver/word-stats",
+  "cSpell.words": ["Wordle"]
 }

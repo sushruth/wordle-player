@@ -6,7 +6,7 @@ import {
   getLPSScoreArray,
   getLPWordScores,
   getScoreArrayLetters,
-} from "./score";
+} from "./lps-helpers/score";
 
 export function getLetterPositionScoreBasedNextWord(
   filteredWordList: Word[],

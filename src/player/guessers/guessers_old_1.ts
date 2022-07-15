@@ -1,8 +1,8 @@
-import { getRandomItem } from "../common/getRandomItem";
-import { isThisTheWord } from "../game/evaluator";
-import { Word } from "../game/types";
-import { getFilteredWordList } from "./filter";
-import { getHighestScoreWordsFromRankedList } from "./helpers/getHighestScoreWordsFromRankList";
+import { getRandomItem } from "../../common/getRandomItem";
+import { isThisTheWord } from "../../game/evaluator";
+import { Word } from "../../game/types";
+import { getFilteredWordList } from "../filter";
+import { getHighestScoreWordsFromRankedList } from "../helpers/getHighestScoreWordsFromRankList";
 
 export const getNextGuessRandom = getRandomItem;
 

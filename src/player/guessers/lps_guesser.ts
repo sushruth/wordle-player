@@ -1,6 +1,6 @@
-import { Letter, LetterResult, Score, Word } from "../../../game/types";
-import { moreWords, words } from "../../../words";
-import { getLPScore, LetterPositionScore } from "../score";
+import { Letter, LetterResult, Score, Word } from "../../game/types";
+import { moreWords, words } from "../../words";
+import { getLPScore, LetterPositionScore } from "./lps-helpers/score";
 
 export async function getLPSVariantNextWord(
   filteredWordList: Word[],

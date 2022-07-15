@@ -1,4 +1,4 @@
-import { Letter, Word } from "../../game/types";
+import { Letter, Word } from "../../../game/types";
 
 export type LetterPositionScore = [
   Record<Letter, number>,

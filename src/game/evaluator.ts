@@ -6,8 +6,8 @@ import { moreWords, words } from "../words";
 import { ResultColor, Word, WordResult } from "./types";
 
 let goalWord: Word = "";
-export function setUpANewGame(sequential = false) {
-  goalWord = sequential ? getNextItem(words) : getRandomItem(words);
+export function setUpANewGame(goalWordInput: Word) {
+  goalWord = goalWordInput;
   prettyPrintResult(goalWord.toUpperCase(), [], "»");
   log("\n");
 }
