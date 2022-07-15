@@ -54,25 +54,20 @@ It also shows a graph of how many times the game was solved in a given number of
 
 ![](./docs/new_stats.png)
 
-## Issues
-
-### FIXED: The Yellow issue
-
-Does not fully eliminate yellow tile reuse
-
-![](./docs/problem_yellow.png)
-
-### Partially FIXED - Not statistically sound yet -
-
-It can take a while to solve sometimes
-
-![](./docs/problem_long.png)
-
-the solution is way better for this word now -
-
-![](./docs/taffy.png)
-
 ## Updates
+
+### 07/14/2022 PART 2
+
+![](https://i.giphy.com/media/3oKIPf3C7HqqYBVcCk/giphy.webp)
+
+![](./docs/success.png)
+
+Here are some of the failing words from before succeeding now ! -
+
+|                       |                               |
+| --------------------- | ----------------------------- |
+| ![](./docs/joker.png) | ![](./docs/taffy-success.png) |
+| ![](./docs/taunt.png) | ![](./docs/catch-success.png) |
 
 ### 07/14/2022
 
@@ -144,3 +139,21 @@ Here is what they look like in execution -
 ![](./docs/fail2.png)
 
 My theory is that - as long as we have words sharing 4 letters in exact same positions, any ranked picking strategy will always have non-zero chance of losing since if the word to be guessed happens to be lowest ranked in any group of such words, it will be picked last and we could lose.
+
+## OLD Issues
+
+### FIXED: The Yellow issue
+
+Does not fully eliminate yellow tile reuse
+
+![](./docs/problem_yellow.png)
+
+### FIXED - Not statistically sound yet -
+
+It can take a while to solve sometimes
+
+![](./docs/problem_long.png)
+
+the solution is way better for this word now -
+
+![](./docs/taffy.png)
