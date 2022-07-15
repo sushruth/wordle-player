@@ -1,5 +1,5 @@
 import { Letter, LetterResult, Score, Word } from "../../../game/types";
-import { words } from "../../../words";
+import { moreWords, words } from "../../../words";
 import { getLPScore, LetterPositionScore } from "../score";
 
 export async function getLPSVariantNextWord(
@@ -14,10 +14,22 @@ export async function getLPSVariantNextWord(
     greenResults
   );
 
+  const { scoreMap: globalScoreMap, highestScore: globalHighestScore } =
+    await getLpsWordMap(moreWords, lps, greenResults);
+
   if (filteredWordList.length > 1) {
     const highestScoreWords = getHighestScoreWords(scoreMap, highestScore);
+    const globalHighestScoreWords = getHighestScoreWords(
+      globalScoreMap,
+      globalHighestScore
+    );
 
-    const word = highestScoreWords[0];
+    const listToUse =
+      highestScore > globalHighestScore
+        ? highestScoreWords
+        : globalHighestScoreWords;
+
+    const word = listToUse.filter((w) => !guessedWordHistory.includes(w))[0];
 
     if (word && !guessedWordHistory.includes(word)) {
       return word;
@@ -64,7 +76,7 @@ async function getLpsWordMap(
       }
 
       if (lpsLetters.includes(letter)) {
-        score += 1;
+        score += 2;
       }
 
       seenLetters.add(letter);
