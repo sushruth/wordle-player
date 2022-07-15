@@ -74,6 +74,56 @@ the solution is way better for this word now -
 
 ## Updates
 
+### 07/14/2022
+
+I added a new guesser based on the old one. I now fail for only one word - "Catch". Very poetic.
+
+![](./docs/latest-catch-fail.png)
+
+Here it how it fails -
+
+![](./docs/catch.png)
+
+Tweaking it more now. Here is the scoring works now - (lps = letter-position-score of filtered word list)
+
+```ts
+let highestScore = 0;
+for (const originalWord of wordList) {
+  let word = originalWord.slice();
+  let score = 0;
+  let seenLetters = new Set<Letter>();
+  for (let i = 0; i < word.length; i++) {
+    const letter = word[i];
+
+    if (greenPositionLetters[i]?.includes(letter)) {
+      score -= 2;
+    } else if (greenLetters.includes(letter)) {
+      score -= 1;
+    } else {
+      let delta = lps[i][letter] || 0;
+      if (seenLetters.has(letter)) {
+        delta = delta - 2;
+      }
+      score += delta;
+    }
+
+    if (lpsLetters.includes(letter)) {
+      score += 1;
+    }
+
+    seenLetters.add(letter);
+  }
+
+  if (highestScore <= score) {
+    highestScore = score;
+  }
+
+  if (score) {
+    scoreMap.set(originalWord, score);
+  }
+}
+```
+
 ### 07/10/2022
 
 Updated the next word guesser based on letter-position-frequency - Meaning that in each round, we filter the words based on current execution result and the filtered list of words is then ranked by a score.
