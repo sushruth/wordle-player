@@ -63,6 +63,10 @@ async function run(options: Options) {
     silence();
   }
 
+  if (options.sequential) {
+    options.count = words.length.toString();
+  }
+
   if (options.word && !words.includes(options.word)) {
     throw Error(
       `The word ${options.word} was not found in the dictionary. I wont be able to play for it.`
