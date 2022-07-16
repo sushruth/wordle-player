@@ -123,7 +123,7 @@ async function main() {
   program
     .name("yarn start")
     .version(packageJson.version)
-    .option("-c, --count <number>", "Number of games to play")
+    .option("-c, --count <number>", "Number of games to play", "1")
     .option("-w, --word <word>", "Play with a specific goal word")
     .option("-p, --print-stats", "Print stats about all the plays", false)
     .option(
@@ -153,3 +153,32 @@ main()
     console.error(error);
     process.exit(1);
   });
+
+async function exitHandler(evtOrExitCodeOrError: number | string | Error) {
+  try {
+    // await async code here
+    // Optionally: Handle evtOrExitCodeOrError here
+  } catch (e) {
+    console.error("EXIT HANDLER ERROR", e);
+  }
+
+  process.exit(isNaN(+evtOrExitCodeOrError) ? 1 : +evtOrExitCodeOrError);
+}
+
+[
+  "beforeExit",
+  "uncaughtException",
+  "unhandledRejection",
+  "SIGHUP",
+  "SIGINT",
+  "SIGQUIT",
+  "SIGILL",
+  "SIGTRAP",
+  "SIGABRT",
+  "SIGBUS",
+  "SIGFPE",
+  "SIGUSR1",
+  "SIGSEGV",
+  "SIGUSR2",
+  "SIGTERM",
+].forEach((evt) => process.on(evt, exitHandler));

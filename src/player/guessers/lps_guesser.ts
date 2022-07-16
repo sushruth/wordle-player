@@ -7,6 +7,10 @@ export async function getLPSVariantNextWord(
   guessedWordHistory: Word[],
   greenResults: LetterResult[]
 ) {
+  if (filteredWordList.length === words.length) {
+    return "saree"; // hardcoding first solution based on previous knowledge
+  }
+
   const lps = getLPScore(filteredWordList);
   const { scoreMap, highestScore } = await getLpsWordMap(
     words,
